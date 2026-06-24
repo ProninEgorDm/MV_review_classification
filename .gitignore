@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+*.csv
+*.docx
+
+/uv.lock
+
+*.env
+
+/wandb
+/catboost_info
+/models
+/final_model
