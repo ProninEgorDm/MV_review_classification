@@ -44,3 +44,6 @@ python model.py
   - CatBoost на текстовых признаках
   - Fine-tune RuBERT с K-fold обучением
 - Для быстрого применения подойдет `model.py`, а полный экспериментальный пайплайн описан в `solution.ipynb`.
+
+
+## Также залил модель на HF https://huggingface.co/jorapro/my-rubert-tiny2-review-classifier
