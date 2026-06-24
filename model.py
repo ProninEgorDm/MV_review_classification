@@ -7,21 +7,24 @@ id2label = {0: 'Доставка', 1: 'Магазин', 2: 'Товар'}
 
 # Путь к модели
 MODEL_PATH = "./final_model" 
+#MODEL_PATH = "./models/kfold/fold_5"
 
-tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
+tokenizer = AutoTokenizer.from_pretrained('cointegrated/rubert-tiny2')
 
-# Определяем устройство (если у проверяющего нет GPU, упадет на CPU)
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.cuda.is_available():
+    device = 'cuda'
+elif torch.backends.mps.is_available():
+    device = 'mps' # я на маке сидел с M2
+else:
+    device = 'cpu'
+device = torch.device(device)
 
-model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH, num_labels=3)
+
+model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
 model.to(device)
 model.eval()
 
 def get_result(text: pd.Series) -> pd.Series:
-    """
-    Функция принимает колонку с отзывами (pd.Series), 
-    предсказывает классы и возвращает их в виде pd.Series с именем 'class_predicted'.
-    """
     predictions = []
     texts = text.tolist()
     batch_size = 16
@@ -49,10 +52,11 @@ def get_result(text: pd.Series) -> pd.Series:
 if __name__ == "__main__":
     test_data = pd.Series([
         "Курьер опоздал на 3 часа, очень плохо!",
-        "Продавец в магазине был очень грубым и хамил.",
-        "Товар оказался бракованным, экран в трещинах."
+        "Продавец не обращал внимание пол часа, а после еще и нахамил",
+        "Телефон пришел бракованным, экран в трещинах."
     ])
     
     result = get_result(test_data)
-    print("Тестовый инференс отработал успешно:")
-    print(result)
+    print("Тестовый инференс")
+    for i in range(len(result)):
+        print('Отзыв:', test_data[i], "|.   Предсказанный класс:", result[i])
