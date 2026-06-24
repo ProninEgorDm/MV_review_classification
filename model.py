@@ -7,7 +7,10 @@ id2label = {0: 'Доставка', 1: 'Магазин', 2: 'Товар'}
 
 # Путь к модели
 MODEL_PATH = "./final_model" 
-#MODEL_PATH = "./models/kfold/fold_5"
+
+# можно потянуть с HF
+# MODEL_PATH = "jorapro/my-rubert-tiny2-review-classifier" 
+
 
 tokenizer = AutoTokenizer.from_pretrained('cointegrated/rubert-tiny2')
 
